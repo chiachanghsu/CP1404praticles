@@ -29,4 +29,13 @@ def get_valid_score():
     return score
 
 
+def determine_grade(score):
+    if score < 50:
+        return "Bad"
+    elif 90 > score >= 50:
+        return "Passable"
+    else:
+        return "Excellent"
+
+
 main()

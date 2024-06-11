@@ -13,6 +13,7 @@ def main():
 
 
 def print_data(data):
+    """Print data."""
     for i in range(len(data)):
         print(f"{data[i][0]} is taught by {data[i][1]} and has {data[i][2]} students.")
 

@@ -6,6 +6,7 @@ color_width = max((len(color) for color in color_to_code.keys()))
 for color, code in color_to_code.items():
     print(f"{color:{color_width}} is {code}")
 
+
 choice = input("Enter a color: ").title()
 while choice != "":
     if choice in color_to_code:

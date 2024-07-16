@@ -1,32 +1,38 @@
 import datetime
 
 
-
 MENU = (" - (L)oad projects\n - (S)ave projects\n - (D)isplay projects\n"
         " - (F)ilter projects by date\n - (A)dd new project\n - (U)pdate project\n - (Q)uit")
+HEADING = "Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage"
 
 
 def main():
-    text = []
+    texts = []
     file_name = 'projects.txt'
     with open(file_name, 'r') as in_file:
         in_file.readline()
         for line in in_file:
-            text.append(line)
+            texts.append(line)
+    # print(texts)
     print("Welcome to Pythonic Project Management")
-    print(f'Loaded {len(text)} projects from {file_name}')
+    print(f'Loaded {len(texts)} projects from {file_name}')
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            text = []
+            texts = []
             file_name = input("File name: ")
             with open(file_name, 'r') as in_file:
                 in_file.readline()
                 for line in in_file:
-                    text.append(line)
+                    texts.append(line)
+                print(texts)
         elif choice == "S":
-            pass
+            file_name = input("File name: ")
+            with open(file_name, 'w') as out_file:
+                print(HEADING, file=out_file)
+                for text in texts:
+                    print(text.strip('\n'), file=out_file)
         elif choice == "D":
             pass
         elif choice == "F":
@@ -39,7 +45,6 @@ def main():
             print("Invalid input.")
         choice = input(">>> ").upper()
     print("Thank you for using custom-built project management software.")
-    # print(text)
 
 
 

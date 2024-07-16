@@ -27,7 +27,16 @@ def main():
             except FileNotFoundError:
                 print("No file found.")
         elif choice == "D":
-            pass
+            incomplete_projects, complete_projects = display_file(texts)
+            print("Incomplete projects:")
+            incomplete_projects.sort(), complete_projects.sort()
+            for project in incomplete_projects:
+                print(f"\t{project.name}, start: {project.date}, priority {project.priority},"
+                      f" estimate: ${project.cost}, completion: {project.percentage}%")
+            print("Completed projects:")
+            for project in complete_projects:
+                print(f"\t{project.name}, start: {project.date}, priority {project.priority},"
+                      f" estimate: ${project.cost}, completion: {project.percentage}%")
         elif choice == "F":
             pass
         elif choice == "A":
@@ -45,6 +54,17 @@ def main():
         save_file(file_name, texts)
         print("Saved.")
     print("Thank you for using custom-built project management software.")
+
+
+def display_file(texts):
+    incomplete_projects = []
+    complete_projects = []
+    for text in texts:
+        if int(text.percentage) < 100:
+            incomplete_projects.append(Project(text.name, text.date, text.priority, text.cost, text.percentage))
+        else:
+            complete_projects.append(Project(text.name, text.date, text.priority, text.cost, text.percentage))
+    return incomplete_projects, complete_projects
 
 
 def save_file(file_name, texts):

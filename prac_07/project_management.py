@@ -17,12 +17,15 @@ def main():
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
-        if choice == "L":
+        if choice == "L" or choice == "S":
             file_name = input("File name: ")
-            texts = load_file(file_name)
-        elif choice == "S":
-            file_name = input("File name: ")
-            save_file(file_name, texts)
+            try:
+                if choice == 'L':
+                    texts = load_file(file_name)
+                elif choice == 'S':
+                    save_file(file_name, texts)
+            except FileNotFoundError:
+                print("No file found.")
         elif choice == "D":
             pass
         elif choice == "F":

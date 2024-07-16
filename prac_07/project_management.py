@@ -1,24 +1,30 @@
 import datetime
 
 
-FILE_NAME = 'projects.txt'
+
 MENU = (" - (L)oad projects\n - (S)ave projects\n - (D)isplay projects\n"
         " - (F)ilter projects by date\n - (A)dd new project\n - (U)pdate project\n - (Q)uit")
 
 
 def main():
     text = []
-    with open(FILE_NAME, 'r') as in_file:
+    file_name = 'projects.txt'
+    with open(file_name, 'r') as in_file:
         in_file.readline()
         for line in in_file:
             text.append(line)
     print("Welcome to Pythonic Project Management")
-    print(f'Loaded {len(text)} projects from {FILE_NAME}')
+    print(f'Loaded {len(text)} projects from {file_name}')
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            pass
+            text = []
+            file_name = input("File name: ")
+            with open(file_name, 'r') as in_file:
+                in_file.readline()
+                for line in in_file:
+                    text.append(line)
         elif choice == "S":
             pass
         elif choice == "D":

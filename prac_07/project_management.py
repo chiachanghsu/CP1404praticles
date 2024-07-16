@@ -31,11 +31,18 @@ def main():
         elif choice == "F":
             pass
         elif choice == "A":
-            pass
+            print("Let's add a new project.")
+            name = input("Name: ").title()
+            date = input("Start date (dd/mm/yy): ")
+            priority = input("Priority: ")
+            cost = input("Cost estimate: $")
+            percentage = input("Percentage: ")
+            texts.append(Project(name, date, priority, cost, percentage))
         elif choice == "U":
             pass
         else:
             print("Invalid input.")
+        print(MENU)
         choice = input(">>> ").upper()
     save_choice = input(f"Would you like to save to {file_name}?(Y/N) ").upper()
     while save_choice not in YES_NO:

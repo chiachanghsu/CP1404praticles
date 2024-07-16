@@ -7,13 +7,8 @@ HEADING = "Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage"
 
 
 def main():
-    texts = []
     file_name = 'projects.txt'
-    with open(file_name, 'r') as in_file:
-        in_file.readline()
-        for line in in_file:
-            line = line.strip().split('\t')
-            texts.append(Project(line[0], line[1], line[2], line[3], line[4]))
+    texts = load_file(file_name)
     for text in texts:
         print(text)
     print("Welcome to Pythonic Project Management")
@@ -22,21 +17,11 @@ def main():
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            texts = []
             file_name = input("File name: ")
-            with open(file_name, 'r') as in_file:
-                in_file.readline()
-                for line in in_file:
-                    line = line.strip().split('\t')
-                    texts.append(Project(line[0], line[1], line[2], line[3], line[4]))
-                for text in texts:
-                    print(text)
+            texts = load_file(file_name)
         elif choice == "S":
             file_name = input("File name: ")
-            with open(file_name, 'w') as out_file:
-                print(HEADING, file=out_file)
-                for text in texts:
-                    print(text, file=out_file)
+            save_file(file_name, texts)
         elif choice == "D":
             pass
         elif choice == "F":
@@ -50,6 +35,22 @@ def main():
         choice = input(">>> ").upper()
     print("Thank you for using custom-built project management software.")
 
+
+def save_file(file_name, texts):
+    with open(file_name, 'w') as out_file:
+        print(HEADING, file=out_file)
+        for text in texts:
+            print(text, file=out_file)
+
+
+def load_file(file_name):
+    texts = []
+    with open(file_name, 'r') as in_file:
+        in_file.readline()
+        for line in in_file:
+            line = line.strip().split('\t')
+            texts.append(Project(line[0], line[1], line[2], line[3], line[4]))
+        return texts
 
 
 # for line in in_file:

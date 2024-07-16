@@ -1,5 +1,5 @@
 import datetime
-
+from prac_07.project import Project
 
 MENU = (" - (L)oad projects\n - (S)ave projects\n - (D)isplay projects\n"
         " - (F)ilter projects by date\n - (A)dd new project\n - (U)pdate project\n - (Q)uit")
@@ -12,8 +12,10 @@ def main():
     with open(file_name, 'r') as in_file:
         in_file.readline()
         for line in in_file:
-            texts.append(line)
-    # print(texts)
+            line = line.strip().split('\t')
+            texts.append(Project(line[0], line[1], line[2], line[3], line[4]))
+    for text in texts:
+        print(text)
     print("Welcome to Pythonic Project Management")
     print(f'Loaded {len(texts)} projects from {file_name}')
     print(MENU)
@@ -25,14 +27,16 @@ def main():
             with open(file_name, 'r') as in_file:
                 in_file.readline()
                 for line in in_file:
-                    texts.append(line)
-                print(texts)
+                    line = line.strip().split('\t')
+                    texts.append(Project(line[0], line[1], line[2], line[3], line[4]))
+                for text in texts:
+                    print(text)
         elif choice == "S":
             file_name = input("File name: ")
             with open(file_name, 'w') as out_file:
                 print(HEADING, file=out_file)
                 for text in texts:
-                    print(text.strip('\n'), file=out_file)
+                    print(text, file=out_file)
         elif choice == "D":
             pass
         elif choice == "F":

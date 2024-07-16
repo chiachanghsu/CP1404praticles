@@ -4,6 +4,7 @@ from prac_07.project import Project
 MENU = (" - (L)oad projects\n - (S)ave projects\n - (D)isplay projects\n"
         " - (F)ilter projects by date\n - (A)dd new project\n - (U)pdate project\n - (Q)uit")
 HEADING = "Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage"
+YES_NO = ["Y", "YES", "N", "NO"]
 
 
 def main():
@@ -33,6 +34,13 @@ def main():
         else:
             print("Invalid input.")
         choice = input(">>> ").upper()
+    save_choice = input(f"Would you like to save to {file_name}?(Y/N) ").upper()
+    while save_choice not in YES_NO:
+        print("Invalid input.")
+        save_choice = input(f"Would you like to save to {file_name}?(Y/N) ").upper()
+    if save_choice == "Y" or save_choice == "YES":
+        save_file(file_name, texts)
+        print("Saved.")
     print("Thank you for using custom-built project management software.")
 
 

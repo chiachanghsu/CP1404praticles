@@ -8,3 +8,6 @@ class Project:
 
     def __str__(self):
         return f'{self.name}\t{self.date}\t{self.priority}\t{self.cost}\t{self.percentage}'
+
+    def __lt__(self, other):
+        return self.priority < other.priority

@@ -11,3 +11,6 @@ class Project:
 
     def __lt__(self, other):
         return self.priority < other.priority
+
+    def __le__(self, other):
+        return self.date <= other.date

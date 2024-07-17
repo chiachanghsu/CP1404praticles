@@ -31,8 +31,11 @@ def main():
         elif choice == "F":
             question = "Show projects that start after date (dd/mm/yy): "
             date_to_compare = get_valid_date(question)
-            date_to_compare = date_to_compare.split('/')
-            compare_date(texts, date_to_compare)
+            datas = compare_date(texts, date_to_compare)
+            for data in datas:
+                print(f"\t{data.name}, start: {data.date}, "
+                      f"priority {data.priority},"f" estimate: ${data.cost}, "
+                      f"completion: {data.percentage}%")
         elif choice == "A":
             print("Let's add a new project.")
             name = get_valid_name()
@@ -57,13 +60,15 @@ def main():
 
 
 def compare_date(texts, date_to_compare):
+    datas = []
+    date_string = date_to_compare
+    date_to_compare = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
     for text in texts:
         date_string = text.date
         date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
-        print(date.strftime("%d/%m/%Y"))
         if date >= date_to_compare:
-            print(f"\t{text.name}, start: {text.date}, priority {text.priority},"
-                  f" estimate: ${text.cost}, completion: {text.percentage}%")
+            datas.append(text)
+    return datas
 
 
 def update_project(texts):
@@ -84,6 +89,11 @@ def update_project(texts):
         print("Invalid input.")
         new_percentage = int(input("New project percentage: "))
     texts[project_choice].percentage = new_percentage
+    new_priority = int(input("New project priority: "))
+    while not 0 < new_priority:
+        print("Invalid input.")
+        new_priority = int(input("New project priority: "))
+    texts[project_choice].priority = new_priority
 
 
 def get_valid_number():
@@ -164,7 +174,6 @@ def load_file(file_name):
             line = line.strip().split('\t')
             texts.append(Project(line[0], line[1], line[2], line[3], line[4]))
         return texts
-
 
 
 main()

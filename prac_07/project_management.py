@@ -5,6 +5,15 @@ MENU = (" - (L)oad projects\n - (S)ave projects\n - (D)isplay projects\n"
         " - (F)ilter projects by date\n - (A)dd new project\n - (U)pdate project\n - (Q)uit")
 HEADING = "Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage"
 YES_NO = ["Y", "YES", "N", "NO"]
+STARTING_VALUE = 0
+ENDING_VALUE = 100
+DATE_END_VALUE = 32
+MONTH_END_VALUE = 12
+YEAR_LENGTH = 4
+DATE_LENGTH = 3
+INDEX_OF_DAY = 0
+INDEX_OF_MONTH = 1
+INDEX_OF_YEAR = 2
 
 
 def main():
@@ -72,25 +81,25 @@ def compare_date(texts, date_to_compare):
 
 
 def update_project(texts):
-    count = 0
+    count = STARTING_VALUE
     for i, text in enumerate(texts):
         count += 1
         print(f"{i}\t{text.name}, start: {text.date}, priority {text.priority},"
               f" estimate: ${text.cost}, completion: {text.percentage}%")
     project_choice = int(input("Project choice: "))
-    while not 0 <= project_choice < count:
+    while not STARTING_VALUE <= project_choice < count:
         print("Invalid input.")
         project_choice = int(input("Project choice: "))
     print(f"\t{texts[project_choice].name}, start: {texts[project_choice].date}, "
           f"priority {texts[project_choice].priority},"f" estimate: ${texts[project_choice].cost}, "
           f"completion: {texts[project_choice].percentage}%")
     new_percentage = int(input("New project percentage: "))
-    while not 0 <= new_percentage <= 100:
+    while not STARTING_VALUE <= new_percentage <= ENDING_VALUE:
         print("Invalid input.")
         new_percentage = int(input("New project percentage: "))
     texts[project_choice].percentage = new_percentage
     new_priority = int(input("New project priority: "))
-    while not 0 < new_priority:
+    while not STARTING_VALUE < new_priority:
         print("Invalid input.")
         new_priority = int(input("New project priority: "))
     texts[project_choice].priority = new_priority
@@ -99,16 +108,16 @@ def update_project(texts):
 def get_valid_number():
     try:
         priority = int(input("Priority: "))
-        while priority < 0:
+        while priority < STARTING_VALUE:
             print("Invalid input.")
             priority = int(input("Priority: "))
         priority = str(priority)
         cost = float(input("Cost estimate: $"))
-        while cost < 0:
+        while cost < STARTING_VALUE:
             print("Invalid input.")
             cost = float(input("Cost estimate: $"))
         percentage = int(input("Percentage: "))
-        while 0 > percentage or percentage > 100:
+        while not STARTING_VALUE <= percentage <= ENDING_VALUE:
             print("Invalid input.")
             percentage = int(input("Percentage: "))
     except ValueError:
@@ -121,14 +130,17 @@ def get_valid_date(question):
     while not is_valid:
         date = input(question)
         date = date.split("/")
-        if len(date) != 3:
+        if len(date) != DATE_LENGTH:
             print("Invalid date.")
         else:
-            if 0 < int(date[0]) < 32 and 0 < int(date[1]) < 13 and len(date[2]) < 4:
+            day = date[INDEX_OF_DAY]
+            month = date[INDEX_OF_MONTH]
+            year = date[INDEX_OF_YEAR]
+            if STARTING_VALUE < int(day) < DATE_END_VALUE and STARTING_VALUE < int(month) < MONTH_END_VALUE and len(year) < YEAR_LENGTH:
                 print("Invalid date.")
             else:
                 is_valid = True
-    date = date[0] + "/" + date[1] + "/" + date[2]
+    date = day + "/" + month + "/" + year
     return date
 
 

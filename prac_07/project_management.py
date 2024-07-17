@@ -37,7 +37,7 @@ def main():
             cost, percentage, priority = get_valid_number()
             texts.append(Project(name, date, priority, cost, percentage))
         elif choice == "U":
-            pass
+            update_project(texts)
         else:
             print("Invalid input.")
         print(MENU)
@@ -50,6 +50,26 @@ def main():
         save_file(file_name, texts)
         print("Saved.")
     print("Thank you for using custom-built project management software.")
+
+
+def update_project(texts):
+    count = 0
+    for i, text in enumerate(texts):
+        count += 1
+        print(f"{i}\t{text.name}, start: {text.date}, priority {text.priority},"
+              f" estimate: ${text.cost}, completion: {text.percentage}%")
+    project_choice = int(input("Project choice: "))
+    while not 0 <= project_choice < count:
+        print("Invalid input.")
+        project_choice = int(input("Project choice: "))
+    print(
+        f"\t{texts[project_choice].name}, start: {texts[project_choice].date}, priority {texts[project_choice].priority},"
+        f" estimate: ${texts[project_choice].cost}, completion: {texts[project_choice].percentage}%")
+    new_percentage = int(input("New project percentage: "))
+    while not 0 <= new_percentage <= 100:
+        print("Invalid input.")
+        new_percentage = int(input("New project percentage: "))
+    texts[project_choice].percentage = new_percentage
 
 
 def get_valid_number():

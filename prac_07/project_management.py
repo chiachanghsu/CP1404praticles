@@ -27,16 +27,14 @@ def main():
             except FileNotFoundError:
                 print("No file found.")
         elif choice == "D":
-            display_file(texts)
+            incomplete_projects = display_file(texts)
         elif choice == "F":
             pass
         elif choice == "A":
             print("Let's add a new project.")
-            name = input("Name: ").title()
-            date = input("Start date (dd/mm/yy): ")
-            priority = input("Priority: ")
-            cost = input("Cost estimate: $")
-            percentage = input("Percentage: ")
+            name = get_valid_name()
+            date = get_valid_date()
+            cost, percentage, priority = get_valid_number()
             texts.append(Project(name, date, priority, cost, percentage))
         elif choice == "U":
             pass
@@ -52,6 +50,50 @@ def main():
         save_file(file_name, texts)
         print("Saved.")
     print("Thank you for using custom-built project management software.")
+
+
+def get_valid_number():
+    try:
+        priority = int(input("Priority: "))
+        while priority < 0:
+            print("Invalid input.")
+            priority = int(input("Priority: "))
+        priority = str(priority)
+        cost = float(input("Cost estimate: $"))
+        while cost < 0:
+            print("Invalid input.")
+            cost = float(input("Cost estimate: $"))
+        percentage = int(input("Percentage: "))
+        while 0 > percentage or percentage > 100:
+            print("Invalid input.")
+            percentage = int(input("Percentage: "))
+    except ValueError:
+        print("Invalid input.")
+    return cost, percentage, priority
+
+
+def get_valid_date():
+    is_valid = False
+    while not is_valid:
+        date = input("Start date (dd/mm/yy): ")
+        date = date.split("/")
+        if len(date) != 3:
+            print("Invalid date.")
+        else:
+            if 0 < int(date[0]) < 32 and 0 < int(date[1]) < 13 and len(date[2]) < 4:
+                print("Invalid date.")
+            else:
+                is_valid = True
+    date = date[0] + "/" + date[1] + "/" + date[2]
+    return date
+
+
+def get_valid_name():
+    name = input("Name: ").title()
+    while name == '':
+        print("Invalid input.")
+        name = input("Name: ").title()
+    return name
 
 
 def display_file(texts):
@@ -71,6 +113,7 @@ def display_file(texts):
     for project in complete_projects:
         print(f"\t{project.name}, start: {project.date}, priority {project.priority},"
               f" estimate: ${project.cost}, completion: {project.percentage}%")
+    return incomplete_projects
 
 
 def save_file(file_name, texts):

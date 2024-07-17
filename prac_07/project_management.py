@@ -69,6 +69,7 @@ def main():
 
 
 def compare_date(texts, date_to_compare):
+    """Compare date with input date."""
     datas = []
     date_string = date_to_compare
     date_to_compare = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
@@ -77,10 +78,12 @@ def compare_date(texts, date_to_compare):
         date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
         if date >= date_to_compare:
             datas.append(text)
+    datas = sorted(datas)
     return datas
 
 
 def update_project(texts):
+    """Update project with new information."""
     count = STARTING_VALUE
     for i, text in enumerate(texts):
         count += 1
@@ -106,6 +109,7 @@ def update_project(texts):
 
 
 def get_valid_number():
+    """Check the input is valid."""
     try:
         priority = int(input("Priority: "))
         while priority < STARTING_VALUE:
@@ -126,16 +130,17 @@ def get_valid_number():
 
 
 def get_valid_date(question):
+    """Check the date is valid."""
     is_valid = False
     while not is_valid:
         date = input(question)
         date = date.split("/")
+        day = date[INDEX_OF_DAY]
+        month = date[INDEX_OF_MONTH]
+        year = date[INDEX_OF_YEAR]
         if len(date) != DATE_LENGTH:
             print("Invalid date.")
         else:
-            day = date[INDEX_OF_DAY]
-            month = date[INDEX_OF_MONTH]
-            year = date[INDEX_OF_YEAR]
             if STARTING_VALUE < int(day) < DATE_END_VALUE and STARTING_VALUE < int(month) < MONTH_END_VALUE and len(year) < YEAR_LENGTH:
                 print("Invalid date.")
             else:
@@ -145,6 +150,7 @@ def get_valid_date(question):
 
 
 def get_valid_name():
+    """Check the name is valid."""
     name = input("Name: ").title()
     while name == '':
         print("Invalid input.")
@@ -153,6 +159,7 @@ def get_valid_name():
 
 
 def display_file(texts):
+    """Display the incomplete and complete projects."""
     incomplete_projects = []
     complete_projects = []
     for text in texts:
@@ -172,6 +179,7 @@ def display_file(texts):
 
 
 def save_file(file_name, texts):
+    """Save datas into file."""
     with open(file_name, 'w') as out_file:
         print(HEADING, file=out_file)
         for text in texts:
@@ -179,6 +187,7 @@ def save_file(file_name, texts):
 
 
 def load_file(file_name):
+    """Load data from file."""
     texts = []
     with open(file_name, 'r') as in_file:
         in_file.readline()

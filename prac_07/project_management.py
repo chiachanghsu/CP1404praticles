@@ -1,5 +1,5 @@
-import datetime
 from prac_07.project import Project
+import datetime
 
 MENU = (" - (L)oad projects\n - (S)ave projects\n - (D)isplay projects\n"
         " - (F)ilter projects by date\n - (A)dd new project\n - (U)pdate project\n - (Q)uit")
@@ -27,13 +27,17 @@ def main():
             except FileNotFoundError:
                 print("No file found.")
         elif choice == "D":
-            incomplete_projects = display_file(texts)
+            display_file(texts)
         elif choice == "F":
-            pass
+            question = "Show projects that start after date (dd/mm/yy): "
+            date_to_compare = get_valid_date(question)
+            date_to_compare = date_to_compare.split('/')
+            compare_date(texts, date_to_compare)
         elif choice == "A":
             print("Let's add a new project.")
             name = get_valid_name()
-            date = get_valid_date()
+            question = "Start date (dd/mm/yy): "
+            date = get_valid_date(question)
             cost, percentage, priority = get_valid_number()
             texts.append(Project(name, date, priority, cost, percentage))
         elif choice == "U":
@@ -52,6 +56,16 @@ def main():
     print("Thank you for using custom-built project management software.")
 
 
+def compare_date(texts, date_to_compare):
+    for text in texts:
+        date_string = text.date
+        date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+        print(date.strftime("%d/%m/%Y"))
+        if date >= date_to_compare:
+            print(f"\t{text.name}, start: {text.date}, priority {text.priority},"
+                  f" estimate: ${text.cost}, completion: {text.percentage}%")
+
+
 def update_project(texts):
     count = 0
     for i, text in enumerate(texts):
@@ -62,9 +76,9 @@ def update_project(texts):
     while not 0 <= project_choice < count:
         print("Invalid input.")
         project_choice = int(input("Project choice: "))
-    print(
-        f"\t{texts[project_choice].name}, start: {texts[project_choice].date}, priority {texts[project_choice].priority},"
-        f" estimate: ${texts[project_choice].cost}, completion: {texts[project_choice].percentage}%")
+    print(f"\t{texts[project_choice].name}, start: {texts[project_choice].date}, "
+          f"priority {texts[project_choice].priority},"f" estimate: ${texts[project_choice].cost}, "
+          f"completion: {texts[project_choice].percentage}%")
     new_percentage = int(input("New project percentage: "))
     while not 0 <= new_percentage <= 100:
         print("Invalid input.")
@@ -92,10 +106,10 @@ def get_valid_number():
     return cost, percentage, priority
 
 
-def get_valid_date():
+def get_valid_date(question):
     is_valid = False
     while not is_valid:
-        date = input("Start date (dd/mm/yy): ")
+        date = input(question)
         date = date.split("/")
         if len(date) != 3:
             print("Invalid date.")
@@ -133,7 +147,6 @@ def display_file(texts):
     for project in complete_projects:
         print(f"\t{project.name}, start: {project.date}, priority {project.priority},"
               f" estimate: ${project.cost}, completion: {project.percentage}%")
-    return incomplete_projects
 
 
 def save_file(file_name, texts):
@@ -153,13 +166,5 @@ def load_file(file_name):
         return texts
 
 
-# for line in in_file:
-#     index_of_slash = line.find('/')
-#     starting_of_date = index_of_slash - 2
-#     ending_of_date = index_of_slash + 8
-#     # print(line[starting_of_date:ending_of_date])
-#     date_string = line[starting_of_date:ending_of_date]
-#     date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
-#     print(f"That day is/was {date.strftime('%A')}")
-#     print(date.strftime("%d/%m/%Y"))
+
 main()

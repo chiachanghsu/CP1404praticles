@@ -15,10 +15,10 @@ class Band(Musician):
         """Add a band to the information."""
         self.name = band_team.name
         self.band_lists.append(band_team)
-        if self.band_info == '':
-            self.band_info = Musician.__str__(band_team)
-        else:
-            self.band_info += ', ' + Musician.__str__(band_team)
+        add_head = ''
+        if not self.band_info == '':
+            add_head = ', '
+        self.band_info += add_head + Musician.__str__(band_team)
 
     def __str__(self):
         """Return a string representation of a Band."""

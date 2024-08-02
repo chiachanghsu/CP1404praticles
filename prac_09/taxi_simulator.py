@@ -3,10 +3,11 @@ from prac_09.silver_service_taxi import SilverServiceTaxi
 
 MENU = 'Q)uit, C)hoose taxi, D)rive'
 TAXIS = [Taxi("Prius", 100), SilverServiceTaxi("Limo", 100, 2), SilverServiceTaxi("Hummer", 200, 4)]
+STARTING_VALUE = 0
 
 
 def main():
-    total_cost = 0
+    total_cost = STARTING_VALUE
     print(f"Let's drive!\n{MENU}")
     choice = input('>>> ').upper()
     current_taxi = None
@@ -22,13 +23,14 @@ def main():
         print(MENU)
         choice = input('>>> ').upper()
     print(f'Total trip cost: ${total_cost:.2f}')
-    for i, taxi in enumerate(TAXIS, 0):
+    for i, taxi in enumerate(TAXIS, STARTING_VALUE):
         print(f'{i} - {taxi}')
 
 
 def choose_taxi():
+    """Determine which taxi to choose."""
     print("Taxis available:")
-    for i, taxi in enumerate(TAXIS, 0):
+    for i, taxi in enumerate(TAXIS, STARTING_VALUE):
         print(f'{i} - {taxi}')
     is_valid = False
     while not is_valid:
@@ -44,7 +46,8 @@ def choose_taxi():
 
 
 def drive(current_taxi):
-    cost = 0
+    """Drive the taxi."""
+    cost = STARTING_VALUE
     if current_taxi is None:
         print('You need to choose a taxi before you can drive.')
     else:
